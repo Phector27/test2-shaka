@@ -74,11 +74,11 @@ player.configure({
 //     request.uris[0] += '?CWIP-Auth-Param=VGhpc0lzQVRlc3QK';
 //   }
 // });
-player.getNetworkingEngine().registerRequestFilter(function(type, request) {
-  if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
-    request.allowCrossSiteCredentials = true;
-  }
-});
+// player.getNetworkingEngine().registerRequestFilter(function(type, request) {
+//   if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
+//     request.allowCrossSiteCredentials = true;
+//   }
+// });
   // Try to load a manifest.
   // This is an asynchronous process.
   try {

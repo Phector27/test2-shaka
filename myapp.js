@@ -56,6 +56,12 @@ async function initPlayer() {
 //       }
 //     }
 //   });
+
+player.configure({
+  drm: {
+    servers: { 'com.widevine.alpha': licenseServer }
+  }
+});
   // Try to load a manifest.
   // This is an asynchronous process.
   try {

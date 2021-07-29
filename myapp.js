@@ -3,7 +3,9 @@
 
 const manifestUri =
     'https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd';
-    const licenseServer = 'https://cwip-shaka-proxy.appspot.com/no_auth';
+    // const licenseServer = 'https://cwip-shaka-proxy.appspot.com/no_auth';
+
+    const licenseServer = 'https://cwip-shaka-proxy.appspot.com/header_auth';
 
 function initApp() {
 

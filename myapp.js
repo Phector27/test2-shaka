@@ -114,10 +114,7 @@ player.getNetworkingEngine().registerRequestFilter(function(type, request) {
   // Try to load a manifest.
   // This is an asynchronous process.
   try {
-    setTimeout(() => {
-      
-      player.load(manifestUri);
-    }, 7000);
+    await player.load(manifestUri);
     // This runs if the asynchronous load is successful.
     console.log('The video has now been loaded!');
   } catch (e) {

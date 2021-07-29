@@ -7,6 +7,8 @@ const manifestUri =
 
     // const licenseServer = 'https://cwip-shaka-proxy.appspot.com/header_auth';
 
+    // const licenseServer = 'https://cwip-shaka-proxy.appspot.com/param_auth';
+
     const licenseServer = 'https://cwip-shaka-proxy.appspot.com/param_auth';
 
 function initApp() {

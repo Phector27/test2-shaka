@@ -84,7 +84,7 @@ player.configure({
 //   }
 // });
   
-player.getNetworkingEngine().registerRequestFilter(function(type, request) {
+player.getNetworkingEngine().registerRequestFilter( async(type, request) =>  {
   // Only add headers to license requests:
   if (type != shaka.net.NetworkingEngine.RequestType.LICENSE) return;
 
@@ -101,12 +101,11 @@ player.getNetworkingEngine().registerRequestFilter(function(type, request) {
     uris: [authTokenServer],
     method: 'POST',
   };
-  const requestType = shaka.net.NetworkingEngine.RequestType.APP;
-  
-  player.getNetworkingEngine().request(requestType, authRequest)
-      .promise.then(function(response) {
+  const requestType = await shaka.net.NetworkingEngine.RequestType.APP;
+  return player.getNetworkingEngine().request(requestType, authRequest)
+      .promise.then( async(response) => {
         // This endpoint responds with the value we should use in the header.
-        authToken = shaka.util.StringUtils.fromUTF8(response.data);
+        authToken = await shaka.util.StringUtils.fromUTF8(response.data);
         console.log('Received auth token', authToken);
         request.headers['CWIP-Auth-Header'] = authToken;
         console.log('License request can now continue.');

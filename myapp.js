@@ -13,7 +13,7 @@ const manifestUri =
 
     const licenseServer = 'https://cwip-shaka-proxy.appspot.com/header_auth';
     const authTokenServer = 'https://cwip-shaka-proxy.appspot.com/get_auth_token';
-    const authToken = null;
+    const authToken = 'VGhpc0lzQVRlc3QK';
 
 function initApp() {
 

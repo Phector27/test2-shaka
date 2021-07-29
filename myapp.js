@@ -102,7 +102,8 @@ player.getNetworkingEngine().registerRequestFilter(function(type, request) {
     method: 'POST',
   };
   const requestType = shaka.net.NetworkingEngine.RequestType.APP;
-  return player.getNetworkingEngine().request(requestType, authRequest)
+  
+  player.getNetworkingEngine().request(requestType, authRequest)
       .promise.then(function(response) {
         // This endpoint responds with the value we should use in the header.
         authToken = shaka.util.StringUtils.fromUTF8(response.data);

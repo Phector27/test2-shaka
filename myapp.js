@@ -78,11 +78,11 @@ player.configure({
 //     request.uris[0] += '?CWIP-Auth-Param=VGhpc0lzQVRlc3QK';
 //   }
 // });
-// player.getNetworkingEngine().registerRequestFilter(function(type, request) {
-//   if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
-//     request.allowCrossSiteCredentials = true;
-//   }
-// });
+player.getNetworkingEngine().registerRequestFilter(function(type, request) {
+  if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
+    request.allowCrossSiteCredentials = true;
+  }
+});
   
 player.getNetworkingEngine().registerRequestFilter(function(type, request) {
   // Only add headers to license requests:

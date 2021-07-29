@@ -34,25 +34,11 @@ async function initPlayer() {
   // Listen for error events.
   player.addEventListener('error', onErrorEvent);
 
-  // player.configure({
-  //   drm: {
-  //     servers: {
-  //       'com.widevine.alpha': 'https://foo.bar/drm/widevine',
-  //       'com.microsoft.playready': 'https://foo.bar/drm/playready'
-  //     }
-  //   }
-  // });
-
   player.configure({
     drm: {
       servers: {
-        'com.widevine.alpha': 'https://foo.bar/drm/widevine'
-      },
-      advanced: {
-        'com.widevine.alpha': {
-          'videoRobustness': 'HW_SECURE_ALL',
-          'audioRobustness': 'HW_SECURE_ALL'
-        }
+        'com.widevine.alpha': 'https://foo.bar/drm/widevine',
+        'com.microsoft.playready': 'https://foo.bar/drm/playready'
       }
     }
   });

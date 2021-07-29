@@ -60,13 +60,13 @@ player.configure({
   }
 });
 
-// player.getNetworkingEngine().registerRequestFilter(function(type, request) {
-//   // Only add headers to license requests:
-//   if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
-//     // This is the specific header name and value the server wants:
-//     request.headers['CWIP-Auth-Header'] = 'VGhpc0lzQVRlc3QK';
-//   }
-// });
+player.getNetworkingEngine().registerRequestFilter(function(type, request) {
+  // Only add headers to license requests:
+  if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
+    // This is the specific header name and value the server wants:
+    request.headers['CWIP-Auth-Header'] = 'VGhpc0lzQVRlc3QK';
+  }
+});
 
 // player.getNetworkingEngine().registerRequestFilter(function(type, request) {
 //   // Only add headers to license requests:

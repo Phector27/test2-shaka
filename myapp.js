@@ -59,30 +59,6 @@ player.configure({
     servers: { 'com.widevine.alpha': licenseServer }
   }
 });
-
-player.getNetworkingEngine().registerRequestFilter(function(type, request) {
-  // Only add headers to license requests:
-  if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
-    // This is the specific header name and value the server wants:
-    request.headers['CWIP-Auth-Header'] = 'VGhpc0lzQVRlc3QK';
-  }
-});
-
-player.getNetworkingEngine().registerRequestFilter(function(type, request) {
-  // Only add headers to license requests:
-  if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
-    // This is the specific parameter name and value the server wants:
-    // Note that all network requests can have multiple URIs (for fallback),
-    // and therefore this is an array. But there should only be one license
-    // server URI in this tutorial.
-    request.uris[0] += '?CWIP-Auth-Param=VGhpc0lzQVRlc3QK';
-  }
-});
-player.getNetworkingEngine().registerRequestFilter(function(type, request) {
-  if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
-    request.allowCrossSiteCredentials = true;
-  }
-});
   
 player.getNetworkingEngine().registerRequestFilter(function(type, request) {
   // Only add headers to license requests:
@@ -111,6 +87,7 @@ player.getNetworkingEngine().registerRequestFilter(function(type, request) {
         console.log('License request can now continue.');
       });
 });
+
   // Try to load a manifest.
   // This is an asynchronous process.
   try {

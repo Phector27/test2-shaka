@@ -11,9 +11,9 @@ const manifestUri =
 
     // const licenseServer = 'https://cwip-shaka-proxy.appspot.com/param_auth';
 
-const licenseServer = 'https://cwip-shaka-proxy.appspot.com/header_auth';
-const authTokenServer = 'https://cwip-shaka-proxy.appspot.com/get_auth_token';
-const authToken = null;
+    const licenseServer = 'https://cwip-shaka-proxy.appspot.com/header_auth';
+    const authTokenServer = 'https://cwip-shaka-proxy.appspot.com/get_auth_token';
+    const authToken = null;
 
 function initApp() {
 
@@ -84,7 +84,7 @@ player.configure({
 //   }
 // });
   
-player.getNetworkingEngine().registerRequestFilter( async(type, request) =>  {
+player.getNetworkingEngine().registerRequestFilter(function(type, request) {
   // Only add headers to license requests:
   if (type != shaka.net.NetworkingEngine.RequestType.LICENSE) return;
 
@@ -101,11 +101,11 @@ player.getNetworkingEngine().registerRequestFilter( async(type, request) =>  {
     uris: [authTokenServer],
     method: 'POST',
   };
-  const requestType = await shaka.net.NetworkingEngine.RequestType.APP;
+  const requestType = shaka.net.NetworkingEngine.RequestType.APP;
   return player.getNetworkingEngine().request(requestType, authRequest)
-      .promise.then( async(response) => {
+      .promise.then(function(response) {
         // This endpoint responds with the value we should use in the header.
-        authToken = await shaka.util.StringUtils.fromUTF8(response.data);
+        authToken = shaka.util.StringUtils.fromUTF8(response.data);
         console.log('Received auth token', authToken);
         request.headers['CWIP-Auth-Header'] = authToken;
         console.log('License request can now continue.');

@@ -1,7 +1,7 @@
 // const manifestUri =
 //     'https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd';
 
-const manifestUri =
+// const manifestUri =
     'https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd';
     // const licenseServer = 'https://cwip-shaka-proxy.appspot.com/no_auth';
 
@@ -11,9 +11,14 @@ const manifestUri =
 
     // const licenseServer = 'https://cwip-shaka-proxy.appspot.com/param_auth';
 
-    const licenseServer = 'https://cwip-shaka-proxy.appspot.com/header_auth';
-    const authTokenServer = 'https://cwip-shaka-proxy.appspot.com/get_auth_token';
-    const authToken = 'VGhpc0lzQVRlc3QK';
+    // const licenseServer = 'https://cwip-shaka-proxy.appspot.com/header_auth';
+//     const authTokenServer = 'https://cwip-shaka-proxy.appspot.com/get_auth_token';
+// const authToken = 'VGhpc0lzQVRlc3QK';
+
+const manifestUri =
+    'https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd';
+const licenseServer = 'https://cwip-shaka-proxy.appspot.com/wrapped_request';
+    
 
 function initApp() {
 
@@ -60,33 +65,33 @@ player.configure({
   }
 });
   
-player.getNetworkingEngine().registerRequestFilter(function(type, request) {
-  // Only add headers to license requests:
-  if (type != shaka.net.NetworkingEngine.RequestType.LICENSE) return;
+// player.getNetworkingEngine().registerRequestFilter(function(type, request) {
+//   // Only add headers to license requests:
+//   if (type != shaka.net.NetworkingEngine.RequestType.LICENSE) return;
 
-  // If we already know the token, attach it right away:
-  if (authToken) {
-    console.log('Have auth token, attaching to license request.');
-    request.headers['CWIP-Auth-Header'] = authToken;
-    return;
-  }
+//   // If we already know the token, attach it right away:
+//   if (authToken) {
+//     console.log('Have auth token, attaching to license request.');
+//     request.headers['CWIP-Auth-Header'] = authToken;
+//     return;
+//   }
 
-  console.log('Need auth token.');
-  // Start an asynchronous request, and return a Promise chain based on that.
-  const authRequest = {
-    uris: [authTokenServer],
-    method: 'POST',
-  };
-  const requestType = shaka.net.NetworkingEngine.RequestType.APP;
-  return player.getNetworkingEngine().request(requestType, authRequest)
-      .promise.then(function(response) {
-        // This endpoint responds with the value we should use in the header.
-        authToken = shaka.util.StringUtils.fromUTF8(response.data);
-        console.log('Received auth token', authToken);
-        request.headers['CWIP-Auth-Header'] = authToken;
-        console.log('License request can now continue.');
-      });
-});
+//   console.log('Need auth token.');
+//   // Start an asynchronous request, and return a Promise chain based on that.
+//   const authRequest = {
+//     uris: [authTokenServer],
+//     method: 'POST',
+//   };
+//   const requestType = shaka.net.NetworkingEngine.RequestType.APP;
+//   return player.getNetworkingEngine().request(requestType, authRequest)
+//       .promise.then(function(response) {
+//         // This endpoint responds with the value we should use in the header.
+//         authToken = shaka.util.StringUtils.fromUTF8(response.data);
+//         console.log('Received auth token', authToken);
+//         request.headers['CWIP-Auth-Header'] = authToken;
+//         console.log('License request can now continue.');
+//       });
+// });
 
   // Try to load a manifest.
   // This is an asynchronous process.

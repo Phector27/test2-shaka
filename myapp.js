@@ -154,6 +154,7 @@ player.getNetworkingEngine().registerResponseFilter(function(type, response) {
     console.log(wrapped);
   }
 });
+  
   // Try to load a manifest.
   // This is an asynchronous process.
   try {

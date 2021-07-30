@@ -15,8 +15,8 @@
 //     const authTokenServer = 'https://cwip-shaka-proxy.appspot.com/get_auth_token';
 // const authToken = 'VGhpc0lzQVRlc3QK';
 
-// const manifestUri =
-//     'https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd';
+const manifestUri =
+    'https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd';
 // const licenseServer = 'https://cwip-shaka-proxy.appspot.com/wrapped_request';
 const licenseServer =
   'https://cwip-shaka-proxy.appspot.com/wrapped_request_and_response';

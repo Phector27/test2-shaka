@@ -17,8 +17,9 @@
 
 const manifestUri =
     'https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd';
-const licenseServer = 'https://cwip-shaka-proxy.appspot.com/wrapped_request';
-    
+// const licenseServer = 'https://cwip-shaka-proxy.appspot.com/wrapped_request';
+const licenseServer =
+'https://cwip-shaka-proxy.appspot.com/wrapped_request_and_response';
 
 function initApp() {
 
@@ -93,37 +94,64 @@ player.configure({
 //       });
 // });
   
-player.getNetworkingEngine().registerRequestFilter(function(type, request) {
+// player.getNetworkingEngine().registerRequestFilter(function(type, request) {
+//   // Alias some utilities provided by the library.
+//   const StringUtils = shaka.util.StringUtils;
+//   const Uint8ArrayUtils = shaka.util.Uint8ArrayUtils;
+
+//   // Only manipulate license requests:
+//   if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
+//     // Create the wrapped request structure.
+//     const wrapped = {};
+
+//     // Encode the raw license request in base64.
+//     // The server we are using in this tutorial expects this field and this
+//     // encoding for the raw request.
+//     wrapped.rawLicenseRequestBase64 =
+//         Uint8ArrayUtils.toBase64(new Uint8Array(request.body));
+
+//     // Add whatever else we want to communicate to the server.
+//     // None of these values are read by the server we are using in this
+//     // tutorial.
+//     // In practice, you would send what the server needs and the server would
+//     // react to it.
+//     wrapped.favoriteColor = 'blue';
+//     wrapped.Beatles = ['John', 'Paul', 'George', 'Ringo'];
+//     wrapped.bestBeatleIndex = 1;  // Paul, of course.
+//     wrapped.pEqualsNP = false;  // maybe?
+
+//     // Encode the wrapped request as JSON.
+//     const wrappedJson = JSON.stringify(wrapped);
+//     // Convert the JSON string back into an ArrayBuffer to replace the request
+//     // body.
+//     request.body = StringUtils.toUTF8(wrappedJson);
+//   }
+// });
+  
+player.getNetworkingEngine().registerResponseFilter(function(type, response) {
   // Alias some utilities provided by the library.
   const StringUtils = shaka.util.StringUtils;
   const Uint8ArrayUtils = shaka.util.Uint8ArrayUtils;
 
-  // Only manipulate license requests:
+  // Only manipulate license responses:
   if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
-    // Create the wrapped request structure.
-    const wrapped = {};
+    // This is the wrapped license, which is a JSON string.
+    const wrappedString = StringUtils.fromUTF8(response.data);
+    // Parse the JSON string into an object.
+    const wrapped = JSON.parse(wrappedString);
 
-    // Encode the raw license request in base64.
-    // The server we are using in this tutorial expects this field and this
-    // encoding for the raw request.
-    wrapped.rawLicenseRequestBase64 =
-        Uint8ArrayUtils.toBase64(new Uint8Array(request.body));
+    // This is a base64-encoded version of the raw license.
+    const rawLicenseBase64 = wrapped.rawLicenseBase64;
+    // Decode that base64 string into a Uint8Array and replace the response
+    // data.  The raw license will be fed to the Widevine CDM.
+    response.data = Uint8ArrayUtils.fromBase64(rawLicenseBase64);
 
-    // Add whatever else we want to communicate to the server.
-    // None of these values are read by the server we are using in this
-    // tutorial.
-    // In practice, you would send what the server needs and the server would
-    // react to it.
-    wrapped.favoriteColor = 'blue';
-    wrapped.Beatles = ['John', 'Paul', 'George', 'Ringo'];
-    wrapped.bestBeatleIndex = 1;  // Paul, of course.
-    wrapped.pEqualsNP = false;  // maybe?
-
-    // Encode the wrapped request as JSON.
-    const wrappedJson = JSON.stringify(wrapped);
-    // Convert the JSON string back into an ArrayBuffer to replace the request
-    // body.
-    request.body = StringUtils.toUTF8(wrappedJson);
+    // Read additional fields from the server.
+    // The server we are using in this tutorial does not send anything useful.
+    // In practice, you could send any license metadata the client might need.
+    // Here we log what the server sent to the JavaScript console for
+    // inspection.
+    console.log(wrapped);
   }
 });
 
